@@ -10,6 +10,7 @@ myapplication.com/project/198731289
 ~~~
 
 ## solution1:
+> 利用 receive 事件来搞定
 ```js
 componentWillReceiveProps(newProps){
     console.log('your logic')
@@ -17,6 +18,7 @@ componentWillReceiveProps(newProps){
 ```
 
 ## solution 2-1:
+> react router has render method.
 ```js
 <Route path="/page/:pageid" render={(props) => (
   <Page key={props.match.params.pageid} {...props} />)
@@ -24,6 +26,7 @@ componentWillReceiveProps(newProps){
 ```
 
 ## solution 2-2
+> wrap a comountent.
 ```js
 // Based on answers by @wei, @Breakpoint25 and @PaulusLimma I made this replacement component for the <Route>. This will remount the page when the URL changes, forcing all the components in the page to be created and mounted again, not just re-rendered. All componentDidMount() and all other startup hooks are executed also on the URL change.
 // The idea is to change components key property when the URL changes and this forces React to re-mount the component.
@@ -56,4 +59,17 @@ RemountingRoute.propsType = {
 }
 
 // This has been tested with React-Router 4.3.
+```
+
+## solution 3:
+> 包装成一个组件，利用 props 的 change 来完成
+
+```js
+// 这是正常的导出组件
+export default Detail;
+
+// 用函数包装一下变成这样
+export default function(props) {
+    return <Detail {...props} key={props.id}/>
+}
 ```
