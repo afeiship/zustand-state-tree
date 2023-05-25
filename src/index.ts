@@ -8,8 +8,8 @@ const viteEnv = new EnvManager({
 });
 
 class ViteEnvs {
-  public static get(inKey: string, inEnv: any): any {
-    return viteEnv.get(inKey, inEnv);
+  public static get(inKey?: string): any {
+    return viteEnv.get(inKey);
   }
 
   public static set(inCmdRc: any): void {
