@@ -13,9 +13,7 @@ npm install @jswork/vite-envs
 
 ## usage
 ```js
-import viteEnvs from '@jswork/vite-envs';
-
-// usage goes here.
+import ViteEnvs from '@jswork/vite-envs';
 ```
 
 ## license
