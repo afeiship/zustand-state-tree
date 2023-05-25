@@ -53,6 +53,6 @@
     ]
   },
   "dependencies": {
-    "@jswork/env-manager": "^1.0.1"
+    "@jswork/env-manager": "^1.0.2"
   }
 }
