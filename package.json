@@ -54,7 +54,7 @@
     ]
   },
   "dependencies": {
-    "@jswork/env-manager": "^1.0.8"
+    "@jswork/env-manager": "^1.0.9"
   },
   "keywords": [
     "env",
