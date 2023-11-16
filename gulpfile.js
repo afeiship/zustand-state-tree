@@ -18,7 +18,6 @@ gulp.task('ts:scripts:esmp', function () {
     .src('src/*.ts')
     .pipe(pkgHeader())
     .pipe(gulpTs({ ...opts, module: 'esnext' }))
-    .pipe(replace(/process\.env/g, 'import.meta.env'))
     .pipe(rename({ extname: '.esm.js' }))
     .pipe(gulp.dest('dist'));
 });
