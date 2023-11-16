@@ -3,7 +3,7 @@ import EnvManager from '@jswork/env-manager';
 declare var wx: any;
 
 const viteEnv = new EnvManager({
-  prefix: 'VITE_APP_',
+  prefix: 'VITE_',
   env: process.env,
 });
 
