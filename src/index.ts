@@ -5,6 +5,7 @@ declare var wx: any;
 const viteEnv = new EnvManager({
   prefix: 'VITE_',
   env: process.env,
+  harmony: true,
 });
 
 class ViteEnvs {
