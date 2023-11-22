@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import nx from '@jswork/next';
-import { computed, persist as persistMiddleware } from './middlewares';
+import { persist as persistMiddleware } from 'zustand/middleware';
+import { computed } from './middlewares';
 
 // extend NxStatic
 declare global {
@@ -9,7 +10,15 @@ declare global {
   }
 }
 
-nx.$defineStore = (storeConfig) => {
+interface StoreConfig {
+  state: Record<string, any>;
+  getters?: Record<string, (state: any) => any>;
+  actions?: Record<string, (state: any) => any>;
+  watch?: Record<string, (newValue: any, oldValue: any) => void>;
+  persist?: any;
+}
+
+nx.$defineStore = (storeConfig: StoreConfig) => {
   const { state, getters, actions, watch, persist } = storeConfig;
 
   // wrap actions -> add: () => set((state) => ({ count: state.count + 1 })),
