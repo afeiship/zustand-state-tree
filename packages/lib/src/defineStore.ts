@@ -6,12 +6,12 @@ import { computed } from './middlewares';
 // extend NxStatic
 declare global {
   interface NxStatic {
-    $defineStore: any;
+    $defineStore: (cfg: StoreConfig) => any;
   }
 }
 
 interface StoreConfig {
-  state: Record<string, any>;
+  state: Record<string, any> | ((stateConfog: StoreConfig) => Record<string, any>);
   getters?: Record<string, (state: any) => any>;
   actions?: Record<string, (state: any) => any>;
   watch?: Record<string, (newValue: any, oldValue: any) => void>;
@@ -20,6 +20,7 @@ interface StoreConfig {
 
 nx.$defineStore = (storeConfig: StoreConfig) => {
   const { state, getters, actions, watch, persist } = storeConfig;
+  const _state = typeof state === 'function' ? state(storeConfig) : state;
 
   // wrap actions -> add: () => set((state) => ({ count: state.count + 1 })),
   const createActions = (set) => {
@@ -37,7 +38,7 @@ nx.$defineStore = (storeConfig: StoreConfig) => {
         (set) => {
           const _actions = createActions(set);
           return {
-            ...state,
+            ..._state,
             ..._actions,
             __: 0,
             __update__: () => set((state) => ({ __: state.__ + 1 })),

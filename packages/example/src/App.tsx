@@ -5,6 +5,8 @@ function App() {
   const width = nx.$use('layout.width');
   const collapsed = nx.$use('layout.collapsed');
 
+  console.log('collapsed: ', collapsed);
+
   return (
     <>
       <h1>zustand-state-tree</h1>
