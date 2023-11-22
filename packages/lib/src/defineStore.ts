@@ -32,28 +32,25 @@ nx.$defineStore = (storeConfig: StoreConfig) => {
 
   // getters
   const store = create(
-    persistMiddleware(
-      computed(
-        function (set, get, api) {
-          const _actions = createActions(set);
-          const _state = typeof state === 'function' ? state.call(api, storeConfig) : state;
-          console.log('api: ', api);
-          return {
-            ..._state,
-            ..._actions,
-            __: 0,
-            __update__: () => set((state) => ({ __: state.__ + 1 })),
-          };
-        },
-        (state) => {
-          const result = {};
-          nx.forIn(getters, (key, getter) => {
-            result[key] = getter(state);
-          });
-          return result;
-        }
-      ),
-      persist
+    computed(
+      persistMiddleware((set, get, api) => {
+        const _actions = createActions(set);
+        const _state = typeof state === 'function' ? state.call(api, storeConfig) : state;
+        console.log('api: ', api);
+        return {
+          ..._state,
+          ..._actions,
+          __: 0,
+          __update__: () => set((state) => ({ __: state.__ + 1 })),
+        };
+      }, persist),
+      (state) => {
+        const result = {};
+        nx.forIn(getters, (key, getter) => {
+          result[key] = getter(state);
+        });
+        return result;
+      }
     )
   );
 
