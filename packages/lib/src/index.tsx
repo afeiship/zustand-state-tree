@@ -1,4 +1,5 @@
 import React from 'react';
+import { getValueFromState } from './helper';
 import './defineStore';
 
 export interface ZustandStateTreeProps {
@@ -37,7 +38,8 @@ export default function ZustandStateTree({ stores, children }: ZustandStateTreeP
       keys.forEach((key) => {
         const store = nx.get(mod, key);
         const isZustandStore = typeof store.getState === 'function';
-        result[key] = isZustandStore ? store.getState() : getx(store);
+        const value = isZustandStore ? store.getState() : getx(store);
+        result[key] = getValueFromState(value);
       });
       return result;
     };
