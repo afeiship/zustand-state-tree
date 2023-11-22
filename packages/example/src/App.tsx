@@ -1,18 +1,28 @@
-import TheComponent from '@jswork/zustand-state-tree';
-import '@jswork/zustand-state-tree/src/style.scss';
 import './App.css';
 
-
 function App() {
+  const fishes = nx.$use('fish.fishes');
+
   return (
     <>
       <h1>zustand-state-tree</h1>
-      <TheComponent
-        onClick={() => {
-          console.log('click me');
-        }}>
-        Click me
-      </TheComponent>
+      <h2>hello zustand</h2>
+      <p>🐠: {fishes}</p>
+      <footer>
+        <button
+          onClick={(e) => {
+            nx.$call('fish.addFish');
+          }}>
+          AddFish
+        </button>
+
+        <button
+          onClick={(e) => {
+            nx.$call('fish.eatFish');
+          }}>
+          🐻‍❄️ EatFish
+        </button>
+      </footer>
     </>
   );
 }

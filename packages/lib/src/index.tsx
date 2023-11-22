@@ -1,4 +1,5 @@
 import React from 'react';
+import './defineStore';
 
 export interface ZustandStateTreeProps {
   stores: any;
@@ -75,6 +76,8 @@ export default function ZustandStateTree({ stores, children }: ZustandStateTreeP
     const action = nx.get(state, leftKey);
     return action(...inArgs);
   };
+
+  console.log('nx:', nx);
 
   return children;
 }
