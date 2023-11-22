@@ -6,7 +6,6 @@ export const computed = (create, compute) => (set, get, api) => {
     set((state) => {
       const updated = typeof update === 'function' ? update(state) : update;
       const computedState = compute({ ...state, ...updated });
-      console.log('computedState:', computedState);
       return { ...updated, ...computedState };
     }, replace);
   };
