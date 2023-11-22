@@ -20,7 +20,6 @@ interface StoreConfig {
 
 nx.$defineStore = (storeConfig: StoreConfig) => {
   const { state, getters, actions, watch, persist } = storeConfig;
-  const _state = typeof state === 'function' ? state(storeConfig) : state;
 
   // wrap actions -> add: () => set((state) => ({ count: state.count + 1 })),
   const createActions = (set) => {
@@ -35,8 +34,10 @@ nx.$defineStore = (storeConfig: StoreConfig) => {
   const store = create(
     persistMiddleware(
       computed(
-        (set) => {
+        function (set, get, api) {
           const _actions = createActions(set);
+          const _state = typeof state === 'function' ? state.call(api, storeConfig) : state;
+          console.log('api: ', api);
           return {
             ..._state,
             ..._actions,

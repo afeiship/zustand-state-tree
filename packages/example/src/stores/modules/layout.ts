@@ -1,8 +1,7 @@
 export default nx.$defineStore({
-  state: () => {
-    return {
-      collapsed: false,
-    };
+  state() {
+    console.log('this:', this);
+    return { collapsed: false };
   },
   getters: {
     width: (state) => (state.collapsed ? 80 : 200),
@@ -26,6 +25,11 @@ export default nx.$defineStore({
       return {
         collapsed: state.collapsed,
       };
+    },
+    onRehydrateStorage: () => (state) => {
+      console.log('onRehydrateStorage!');
+      state.setHasHydrated(true);
+      console.log('state:', state);
     },
   },
 });
