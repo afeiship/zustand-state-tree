@@ -36,7 +36,6 @@ nx.$defineStore = (storeConfig: StoreConfig) => {
       persistMiddleware((set, get, api) => {
         const _actions = createActions(set);
         const _state = typeof state === 'function' ? state.call(api, storeConfig) : state;
-        console.log('api: ', api);
         return {
           ..._state,
           ..._actions,
