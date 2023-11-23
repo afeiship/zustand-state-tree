@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import nx from '@jswork/next';
 import { persist as persistMiddleware } from 'zustand/middleware';
+import { immer as immerMiddleware } from 'zustand/middleware/immer';
 import { wrap, computed } from './middlewares';
 
 // extend NxStatic
@@ -11,6 +12,7 @@ declare global {
 }
 
 interface StoreConfig {
+  immer?: boolean;
   state: Record<string, any> | ((stateConfog: StoreConfig) => Record<string, any>);
   getters?: Record<string, (state: any) => any>;
   actions?: Record<string, (state: any) => any>;
@@ -19,7 +21,9 @@ interface StoreConfig {
 }
 
 nx.$defineStore = (storeConfig: StoreConfig) => {
-  const { state, getters, actions, watch, persist } = storeConfig;
+  const { immer, state, getters, actions, watch, persist } = storeConfig;
+  const immerWrap = immer ? immerMiddleware : (fn) => fn;
+  const persistWrap = persist ? (fn) => persistMiddleware(fn, persist) : (fn) => fn;
 
   // wrap actions -> add: () => set((state) => ({ count: state.count + 1 })),
   const createActions = (set) => {
@@ -33,16 +37,17 @@ nx.$defineStore = (storeConfig: StoreConfig) => {
   // getters
   const store = create(
     computed(
-      persistMiddleware(
-        wrap((set, _, api) => {
-          const _actions = createActions(set);
-          const _state = typeof state === 'function' ? state.call(api, storeConfig) : state;
-          return {
-            ..._state,
-            ..._actions,
-          };
-        }),
-        persist
+      persistWrap(
+        wrap(
+          immerWrap((set, _, api) => {
+            const _actions = createActions(set);
+            const _state = typeof state === 'function' ? state.call(api, storeConfig) : state;
+            return {
+              ..._state,
+              ..._actions,
+            };
+          })
+        )
       ),
       (state) => {
         const result = {};
