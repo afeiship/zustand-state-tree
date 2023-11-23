@@ -7,6 +7,12 @@
   "types": "dist/index.d.ts",
   "homepage": "https://js.work",
   "license": "MIT",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
   "scripts": {
     "build": "tsup",
     "release": "release-it --ci --npm.skipChecks"
