@@ -1,13 +1,12 @@
-import React from 'react';
+import { PropsWithChildren } from 'react';
 import { getAllState, getStore, getValueFromState } from './helper';
 import './defineStore';
 
 type Stores = Record<string, any>;
 
-export interface ZustandStateTreeProps {
+export type ZustandStateTreeProps = PropsWithChildren<{
   stores: Stores;
-  children: React.ReactNode;
-}
+}>;
 
 // extend NxStatic
 declare global {
