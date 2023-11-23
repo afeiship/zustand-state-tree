@@ -11,7 +11,7 @@ export type ZustandStateTreeProps = PropsWithChildren<{
 // extend NxStatic
 declare global {
   interface NxStatic {
-    __stores__: Stores;
+    __stores__?: Stores;
     $get(key?: string, defaults?: any): any;
     $set(key: string, value: any): void;
     $use(key: string, defaults?: any): any;
