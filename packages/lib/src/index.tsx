@@ -35,8 +35,9 @@ export default function ZustandStateTree({ stores, children }: ZustandStateTreeP
   nx.$set = (inKey, inValue) => {
     const [useStore, leftKey] = getStore(inKey);
     const state = useStore.getState();
+    const newState = nx.set(state, leftKey, inValue);
     state.__update__();
-    useStore.setState(nx.set(state, leftKey, inValue));
+    useStore.setState(newState);
   };
 
   nx.$use = (inKey, inDefault?) => {
