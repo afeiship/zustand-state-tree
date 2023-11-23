@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import nx from '@jswork/next';
 import { persist as persistMiddleware } from 'zustand/middleware';
-import { computed } from './middlewares';
+import { wrap, computed } from './middlewares';
 
 // extend NxStatic
 declare global {
@@ -33,16 +33,17 @@ nx.$defineStore = (storeConfig: StoreConfig) => {
   // getters
   const store = create(
     computed(
-      persistMiddleware((set, get, api) => {
-        const _actions = createActions(set);
-        const _state = typeof state === 'function' ? state.call(api, storeConfig) : state;
-        return {
-          ..._state,
-          ..._actions,
-          __: 0,
-          __update__: () => set((state) => ({ __: state.__ + 1 })),
-        };
-      }, persist),
+      persistMiddleware(
+        wrap((set, _, api) => {
+          const _actions = createActions(set);
+          const _state = typeof state === 'function' ? state.call(api, storeConfig) : state;
+          return {
+            ..._state,
+            ..._actions,
+          };
+        }),
+        persist
+      ),
       (state) => {
         const result = {};
         nx.forIn(getters, (key, getter) => {

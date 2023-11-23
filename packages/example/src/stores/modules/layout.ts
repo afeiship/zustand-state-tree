@@ -1,6 +1,5 @@
 export default nx.$defineStore({
   state() {
-    console.log('this:', this);
     return { collapsed: false };
   },
   getters: {
@@ -8,10 +7,7 @@ export default nx.$defineStore({
   },
   actions: {
     toggle: (state) => {
-      // state.collapsed = !state.collapsed;
-      return {
-        collapsed: !state.collapsed,
-      };
+      state.collapsed = !state.collapsed;
     },
   },
   watch: {
@@ -25,11 +21,6 @@ export default nx.$defineStore({
       return {
         collapsed: state.collapsed,
       };
-    },
-    onRehydrateStorage: () => (state) => {
-      console.log('onRehydrateStorage!');
-      state.setHasHydrated(true);
-      console.log('state:', state);
-    },
+    }
   },
 });

@@ -1,7 +1,7 @@
 //@thanks to: https://github.com/cmlarsen/zustand-middleware-computed-state
 //how develop middleware: https://github.com/pmndrs/zustand#middleware
 
-export const computed = (create, compute) => (set, get, api) => {
+export default (create, compute) => (set, get, api) => {
   const setWithComputed = (update, replace) => {
     set((state) => {
       const updated = typeof update === 'function' ? update(state) : update;

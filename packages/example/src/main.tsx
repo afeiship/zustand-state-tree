@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import ZstateTree from '@jswork/zustand-state-tree/src';
+import ZstateTree from '@jswork/zustand-state-tree';
 import stores from './stores';
 import App from './App.tsx';
 import './index.css';

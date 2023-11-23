@@ -1,15 +1,18 @@
 import React from 'react';
-import { getValueFromState } from './helper';
+import { getAllState, getStore, getValueFromState } from './helper';
 import './defineStore';
 
+type Stores = Record<string, any>;
+
 export interface ZustandStateTreeProps {
-  stores: any;
+  stores: Stores;
   children: React.ReactNode;
 }
 
 // extend NxStatic
 declare global {
   interface NxStatic {
+    __stores__: Stores;
     $get(key?: string, defaults?: any): any;
     $set(key: string, value: any): void;
     $use(key: string, defaults?: any): any;
@@ -18,40 +21,15 @@ declare global {
 }
 
 export default function ZustandStateTree({ stores, children }: ZustandStateTreeProps) {
-  const getStore = (inKey) => {
-    const [key, ...subkeys] = inKey.split('.');
-    const getx = (k, subk) => {
-      const store = nx.get(stores, k);
-      if (typeof store.getState === 'function') {
-        return [store, subk];
-      }
-      const keys = subk.split('.');
-      return getx(k + '.' + keys.shift(), keys.join('.'));
-    };
-    return getx(key, subkeys.join('.'));
-  };
-
-  const getAllState = () => {
-    const getx = (mod) => {
-      const keys = Object.keys(mod);
-      const result = {};
-      keys.forEach((key) => {
-        const store = nx.get(mod, key);
-        const isZustandStore = typeof store.getState === 'function';
-        const value = isZustandStore ? store.getState() : getx(store);
-        result[key] = getValueFromState(value);
-      });
-      return result;
-    };
-    return getx(stores);
-  };
+  nx.__stores__ = stores;
 
   // get state value from store
   nx.$get = (inKey, inDefault?) => {
     if (!inKey) return getAllState();
     const [useStore, leftKey] = getStore(inKey);
     const state = useStore.getState();
-    return nx.get(state, leftKey, inDefault);
+    const result = nx.get(state, leftKey, inDefault);
+    return getValueFromState(result);
   };
 
   nx.$set = (inKey, inValue) => {
@@ -59,7 +37,6 @@ export default function ZustandStateTree({ stores, children }: ZustandStateTreeP
     const state = useStore.getState();
     state.__update__();
     useStore.setState(nx.set(state, leftKey, inValue));
-    // trigger chagne:
   };
 
   nx.$use = (inKey, inDefault?) => {

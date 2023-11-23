@@ -1,4 +1,5 @@
 import { persist } from 'zustand/middleware';
-import { computed } from './computed';
+import computed from './computed';
+import wrap from './wrap';
 
-export { persist, computed };
+export { persist, computed, wrap };
