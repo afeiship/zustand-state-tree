@@ -1,6 +1,6 @@
 export const isFunction = (value) => typeof value === 'function';
 export const isObject = (value) => typeof value === 'object' && value !== null;
-export const isZstore = (store) => isFunction(store.getState);
+export const isZustandStore = (store) => isFunction(store.getState);
 
 export const getValueFromState = (state) => {
   if (!isObject(state)) return state;
@@ -22,7 +22,7 @@ export const getStore = (inKey) => {
   const [key, ...subkeys] = inKey.split('.');
   const getx = (k, subk) => {
     const store = nx.get(stores, k);
-    if (isZstore(store)) return [store, subk];
+    if (isZustandStore(store)) return [store, subk];
     const keys = subk.split('.');
     return getx(k + '.' + keys.shift(), keys.join('.'));
   };
@@ -36,7 +36,7 @@ export const getAllState = () => {
     const result = {};
     keys.forEach((key) => {
       const store = nx.get(mod, key);
-      const value = isZstore(store) ? store.getState() : getx(store);
+      const value = isZustandStore(store) ? store.getState() : getx(store);
       result[key] = getValueFromState(value);
     });
     return result;

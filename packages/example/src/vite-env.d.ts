@@ -1,2 +1,2 @@
 /// <reference types="vite/client" />
-/// <reference types="@jswork/zustand-state-tree/src/global.d.ts" />
+/// <reference types="@jswork/zustand-state-tree/global.d.ts" />
