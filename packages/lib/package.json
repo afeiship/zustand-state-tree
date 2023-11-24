@@ -32,5 +32,8 @@
     "state",
     "tree",
     "zustand"
-  ]
+  ],
+  "dependencies": {
+    "@jswork/pipe": "^1.0.4"
+  }
 }

@@ -1,4 +1,5 @@
 export default nx.$defineStore({
+  immer: true,
   state: {
     token: null,
     data: {

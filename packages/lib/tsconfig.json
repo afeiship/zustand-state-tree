@@ -24,10 +24,7 @@
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "typeRoots": [
-      "@types"
-    ]
+    "noUnusedParameters": true
   },
   "include": [
     "global.d.ts",

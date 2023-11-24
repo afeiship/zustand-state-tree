@@ -1,3 +1,5 @@
+import nx from '@jswork/next';
+
 export const isFunction = (value) => typeof value === 'function';
 export const isObject = (value) => typeof value === 'object' && value !== null;
 export const isZustandStore = (store) => isFunction(store.getState);
@@ -42,4 +44,24 @@ export const getAllState = () => {
     return result;
   };
   return getx(stores);
+};
+
+export const generateGetters = (getters) => {
+  return (state) => {
+    const result = {};
+    nx.forIn(getters, (key, getter) => {
+      result[key] = getter(state);
+    });
+    return result;
+  };
+};
+
+export const generateActions = (inActions) => {
+  return (set) => {
+    const _actions = {};
+    nx.forIn(inActions, (key, action) => {
+      _actions[key] = () => set(action);
+    });
+    return _actions;
+  };
 };
