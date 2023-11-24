@@ -1,6 +1,6 @@
 interface StoreConfig {
   immer?: boolean;
-  state: Record<string, any> | ((stateConfog: StoreConfig) => Record<string, any>);
+  state: Record<string, any> | ((stateConfig: StoreConfig) => Record<string, any>);
   getters?: Record<string, (state: any) => any>;
   actions?: Record<string, (state: any) => any>;
   watch?: Record<string, (newValue: any, oldValue: any) => void>;
