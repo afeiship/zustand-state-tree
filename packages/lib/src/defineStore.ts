@@ -5,15 +5,6 @@ import { immer as immerMiddleware } from 'zustand/middleware/immer';
 import { wrap, computed } from './middlewares';
 import { isFunction } from './helper';
 
-export interface StoreConfig {
-  immer?: boolean;
-  state: Record<string, any> | ((stateConfog: StoreConfig) => Record<string, any>);
-  getters?: Record<string, (state: any) => any>;
-  actions?: Record<string, (state: any) => any>;
-  watch?: Record<string, (newValue: any, oldValue: any) => void>;
-  persist?: any;
-}
-
 export default (storeConfig: StoreConfig) => {
   const { immer, state, getters, actions, watch, persist } = storeConfig;
   const immerWrap = immer ? immerMiddleware : (fn) => fn;

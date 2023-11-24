@@ -1,6 +1,5 @@
 export const isFunction = (value) => typeof value === 'function';
 export const isObject = (value) => typeof value === 'object' && value !== null;
-
 export const isZstore = (store) => isFunction(store.getState);
 
 export const getValueFromState = (state) => {
