@@ -1,17 +1,17 @@
 import nx from '@jswork/next';
 
-export const isFunction = (value) => typeof value === 'function';
-export const isObject = (value) => typeof value === 'object' && value !== null;
-export const isZustandStore = (store) => isFunction(store.getState);
+export const isFunction = (inValue) => typeof inValue === 'function';
+export const isObject = (inValue) => typeof inValue === 'object' && inValue !== null;
+export const isZustandStore = (inStore) => isFunction(inStore.getState);
 
-export const getValueFromState = (state) => {
-  if (!isObject(state)) return state;
+export const getValueFromState = (inState) => {
+  if (!isObject(inState)) return inState;
 
-  const keys = Object.keys(state);
+  const keys = Object.keys(inState);
   const result = {};
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    const value = state[key];
+    const value = inState[key];
     if (key === '__') continue;
     if (isFunction(value)) continue;
     result[key] = value;
@@ -46,10 +46,10 @@ export const getAllState = () => {
   return getx(stores);
 };
 
-export const generateGetters = (getters) => {
+export const generateGetters = (inGetters) => {
   return (state) => {
     const result = {};
-    nx.forIn(getters, (key, getter) => {
+    nx.forIn(inGetters, (key, getter) => {
       result[key] = getter(state);
     });
     return result;
