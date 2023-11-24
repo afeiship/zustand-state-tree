@@ -8,7 +8,7 @@ import { generateActions, generateGetters, isFunction } from './helper';
 
 export default (storeConfig: StoreConfig) => {
   const { immer, state, getters, actions, watch, persist } = storeConfig;
-  const immerWrap = immer ? immerMiddleware : (fn) => fn;
+  const immerWrap = immer ? immerMiddleware : nx.stubValue;
   const persistWrap = persist ? (fn) => persistMiddleware(fn, persist) : nx.stubValue;
   const computedWrap = getters ? (fn) => computed(fn, generateGetters(getters)) : nx.stubValue;
   const pipedWrap = pipe(
