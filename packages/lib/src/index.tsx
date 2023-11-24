@@ -1,6 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { getAllState, getStore, getValueFromState } from './helper';
-import './defineStore';
+import defineStore, { StoreConfig } from './defineStore';
+import nx from '@jswork/next';
 
 type Stores = Record<string, any>;
 
@@ -12,6 +13,7 @@ export type ZustandStateTreeProps = PropsWithChildren<{
 declare global {
   interface NxStatic {
     __stores__?: Stores;
+    $defineStore: (cfg: StoreConfig) => any;
     $get(key?: string, defaults?: any): any;
     $set(key: string, value: any): void;
     $use(key: string, defaults?: any): any;
@@ -21,6 +23,8 @@ declare global {
 
 export default function ZustandStateTree({ stores, children }: ZustandStateTreeProps) {
   nx.__stores__ = stores;
+
+  nx.$defineStore = defineStore;
 
   // get state value from store
   nx.$get = (inKey, inDefault?) => {

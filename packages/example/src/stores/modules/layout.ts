@@ -12,7 +12,7 @@ export default nx.$defineStore({
   },
   watch: {
     collapsed: (cur, old) => {
-      console.log('cur collapsed:', cur);
+      console.log('cur collapsed:', cur, old);
     },
   },
   persist: {
@@ -21,6 +21,6 @@ export default nx.$defineStore({
       return {
         collapsed: state.collapsed,
       };
-    }
+    },
   },
 });

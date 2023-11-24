@@ -3,15 +3,9 @@ import nx from '@jswork/next';
 import { persist as persistMiddleware } from 'zustand/middleware';
 import { immer as immerMiddleware } from 'zustand/middleware/immer';
 import { wrap, computed } from './middlewares';
+import { isFunction } from './helper';
 
-// extend NxStatic
-declare global {
-  interface NxStatic {
-    $defineStore: (cfg: StoreConfig) => any;
-  }
-}
-
-interface StoreConfig {
+export interface StoreConfig {
   immer?: boolean;
   state: Record<string, any> | ((stateConfog: StoreConfig) => Record<string, any>);
   getters?: Record<string, (state: any) => any>;
@@ -20,7 +14,7 @@ interface StoreConfig {
   persist?: any;
 }
 
-nx.$defineStore = (storeConfig: StoreConfig) => {
+export default (storeConfig: StoreConfig) => {
   const { immer, state, getters, actions, watch, persist } = storeConfig;
   const immerWrap = immer ? immerMiddleware : (fn) => fn;
   const persistWrap = persist ? (fn) => persistMiddleware(fn, persist) : (fn) => fn;
@@ -41,13 +35,13 @@ nx.$defineStore = (storeConfig: StoreConfig) => {
         wrap(
           immerWrap((set, _, api) => {
             const _actions = createActions(set);
-            const _state = typeof state === 'function' ? state.call(api, storeConfig) : state;
+            const _state = isFunction(state) ? state.call(api, storeConfig) : state;
             return {
               ..._state,
               ..._actions,
             };
-          })
-        )
+          }),
+        ),
       ),
       (state) => {
         const result = {};
@@ -55,8 +49,8 @@ nx.$defineStore = (storeConfig: StoreConfig) => {
           result[key] = getter(state);
         });
         return result;
-      }
-    )
+      },
+    ),
   );
 
   //watch

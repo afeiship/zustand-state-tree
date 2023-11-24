@@ -18,7 +18,7 @@ function App() {
         <h3>coll-width: {width}</h3>
         <p>collapsed: {String(collapsed)}</p>
         <button
-          onClick={(e) => {
+          onClick={() => {
             console.log('toggle');
             nx.$call('layout.toggle');
           }}>
@@ -27,7 +27,7 @@ function App() {
       </div>
       <p>
         <button
-          onClick={(e) => {
+          onClick={() => {
             nx.$call('nested.update');
           }}>
           Update Nested count
@@ -35,14 +35,14 @@ function App() {
       </p>
       <footer>
         <button
-          onClick={(e) => {
+          onClick={() => {
             nx.$call('fish.addFish');
           }}>
           AddFish
         </button>
 
         <button
-          onClick={(e) => {
+          onClick={() => {
             nx.$call('fish.eatFish');
           }}>
           🐻‍❄️ EatFish

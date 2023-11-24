@@ -12,5 +12,5 @@ export default nx.$defineStore({
       console.log('update!');
       state.data.child.count++;
     },
-  }
+  },
 });
