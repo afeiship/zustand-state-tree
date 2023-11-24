@@ -11,7 +11,8 @@
     ".": {
       "import": "./dist/index.esm.js",
       "require": "./dist/index.cjs.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "src": "./src"
     }
   },
   "scripts": {

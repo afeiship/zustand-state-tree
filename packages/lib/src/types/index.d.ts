@@ -4,7 +4,7 @@ interface StoreConfig {
   getters?: Record<string, (state: any) => any>;
   actions?: Record<string, (state: any) => any>;
   watch?: Record<string, (newValue: any, oldValue: any) => void>;
-  persist?: any;
+  persist?: import('zustand/middleware/persist').PersistOptions<any>;
 }
 
 type Stores = Record<string, any>;
